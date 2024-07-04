@@ -38,12 +38,34 @@ def save_df_to_csv():
     weather_2012 = pd.concat(data_by_month)
     weather_2012.to_csv('weather_2012.csv')
 
+def read_csv():
+    weather_2012 = pd.read_csv('weather_2012.csv', parse_dates=True, index_col=r'Date/Time (LST)')
+    return weather_2012
 
-def main():
+def part4():
     demo_work()
     print(download_weather_month(2012, 1)[:5])
     save_df_to_csv()
 
+def part5():
+    weather_2012 = read_csv()
+    print(weather_2012[:5])
+    weather_description = weather_2012['Weather']
+    is_snowing = weather_description.str.contains('Snow')
+    print(is_snowing[:5])
+    is_snowing.astype(int).plot()
+    plt.show()
+    is_snowing.astype(int).resample('ME').mean().plot(kind='bar')
+    plt.show()
+    temperature = weather_2012["Temp (C)"].resample('ME').median()
+    is_snowing = weather_2012['Weather'].str.contains('Snow')
+    snowiness = is_snowing.astype(int).resample('ME').mean()
+    temperature.name = "Temperature"
+    snowiness.name = "Snowiness"
+    stats = pd.concat([temperature, snowiness], axis=1)
+    stats.plot(kind='bar', subplots=True, figsize=(15, 10))
+    plt.show()
 
 if __name__ == '__main__':
-    main()
+    # part4()
+    part5()
