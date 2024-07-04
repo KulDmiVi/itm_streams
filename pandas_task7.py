@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 plt.style.use('ggplot')  # Красивые графики
 plt.rcParams['figure.figsize'] = (15, 5)  # Размер картинок
